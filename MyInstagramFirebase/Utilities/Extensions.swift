@@ -2,7 +2,7 @@
 //  Extensions.swift
 //  MyInstagramFirebase
 //
-//  Created by Joshua on 06/01/2018.
+//  Created by Tobi Omotayo on 06/01/2018.
 //  Copyright © 2018 Oluwatobi Omotayo. All rights reserved.
 //
 

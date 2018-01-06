@@ -2,7 +2,7 @@
 //  ViewController.swift
 //  MyInstagramFirebase
 //
-//  Created by Joshua on 05/01/2018.
+//  Created by Tobi Omotayo on 05/01/2018.
 //  Copyright © 2018 Oluwatobi Omotayo. All rights reserved.
 //
 
