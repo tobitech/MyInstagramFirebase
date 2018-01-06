@@ -126,22 +126,40 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             
             print("Successfully create user: ", user?.uid ?? "")
             
-            /// execute code that will save username into Firebase Database
+            // upload profile image.
             
-            guard let uid = user?.uid else { return }
+            guard let image = self.plusPhotoButton.imageView?.image else { return }
+            guard let uploadData = UIImageJPEGRepresentation(image, 0.3) else { return }
             
-            let usernameValues = ["username": username]
-            let values = [uid:usernameValues]
-            
-            Database.database().reference().child("users").updateChildValues(values, withCompletionBlock: { (err, ref) in
+            let filename = NSUUID().uuidString
+            Storage.storage().reference().child("profile_images").child(filename).putData(uploadData, metadata: nil, completion: { (metadata, err) in
                 
                 if let err = err {
-                    print("Failed to save user info into db: ", err)
+                    print("Failed to upload profile image: ", err)
                     return
                 }
                 
-                print("Successfully saved user info to db")
+                guard let profileImageUrl = metadata?.downloadURL()?.absoluteString else { return }
                 
+                print("Successfully Uploaded Profile Image: ", profileImageUrl)
+                
+                /// execute code that will save username into Firebase Database
+    
+                guard let uid = user?.uid else { return }
+    
+                let dictionaryValues = ["username": username, "profileImageUrl": profileImageUrl]
+                let values = [uid:dictionaryValues]
+    
+                Database.database().reference().child("users").updateChildValues(values, withCompletionBlock: { (err, ref) in
+    
+                    if let err = err {
+                        print("Failed to save user info into db: ", err)
+                        return
+                    }
+    
+                    print("Successfully saved user info to db")
+    
+                })
             })
         }
     }
