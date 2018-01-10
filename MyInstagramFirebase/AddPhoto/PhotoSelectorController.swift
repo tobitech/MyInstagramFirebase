@@ -109,8 +109,12 @@ class PhotoSelectorController: UICollectionViewController, UICollectionViewDeleg
         return UIEdgeInsets(top: 1, left: 0, bottom: 0, right: 0)
     }
     
+    var header: PhotoSelectorHeader?
+    
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerId, for: indexPath) as! PhotoSelectorHeader
+        
+        self.header = header
         
         header.photoImageView.image = selectedImage
         
@@ -148,7 +152,9 @@ class PhotoSelectorController: UICollectionViewController, UICollectionViewDeleg
     }
     
     @objc func handleNext() {
-        print(123)
+        let sharePhotoController = SharePhotoController()
+        sharePhotoController.selectedImage = header?.photoImageView.image
+        navigationController?.pushViewController(sharePhotoController, animated: true)
     }
     
     @objc func handleCancel() {
@@ -156,3 +162,8 @@ class PhotoSelectorController: UICollectionViewController, UICollectionViewDeleg
     }
     
 }
+
+
+
+
+
