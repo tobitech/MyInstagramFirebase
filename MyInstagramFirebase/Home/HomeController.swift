@@ -19,6 +19,7 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         collectionView?.backgroundColor = .white
         
         collectionView?.register(HomePostCell.self, forCellWithReuseIdentifier: cellId)
+        collectionView?.alwaysBounceVertical = true
         
         setupNavigationItems()
         
