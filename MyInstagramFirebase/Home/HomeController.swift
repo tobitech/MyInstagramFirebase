@@ -37,9 +37,12 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
     }
     
     @objc func handleRefresh() {
-        print("Handling refresh...")
         posts.removeAll()
         fetchAllPosts()
+        DispatchQueue.global(qos: .background).async {
+            self.collectionView?.reloadData()
+            self.collectionView?.refreshControl?.endRefreshing()
+        }
     }
     
     fileprivate func fetchAllPosts() {
@@ -81,7 +84,7 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         let ref = Database.database().reference().child("posts").child(user.uid)
         ref.observeSingleEvent(of: .value, with: { (snapshot) in
             
-            self.collectionView?.refreshControl?.endRefreshing()
+//            self.collectionView?.refreshControl?.endRefreshing()
             
             guard let dictionaries = snapshot.value as? [String: Any] else { return }
             
