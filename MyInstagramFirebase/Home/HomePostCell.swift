@@ -21,6 +21,8 @@ class HomePostCell: UICollectionViewCell {
         didSet {
             guard let postImageUrl = post?.imageUrl else { return }
             
+            likeButton.setImage(post?.hasLiked == true ? #imageLiteral(resourceName: "like_selected").withRenderingMode(.alwaysOriginal) : #imageLiteral(resourceName: "like_unselected").withRenderingMode(.alwaysOriginal), for: .normal)
+            
             photoImageView.loadImage(urlString: postImageUrl)
             
             usernameLabel.text = post?.user.username
@@ -85,7 +87,6 @@ class HomePostCell: UICollectionViewCell {
     }()
     
     @objc func handleLike() {
-        guard let post = self.post else { return }
         delegate?.didLike(for: self)
     }
     
