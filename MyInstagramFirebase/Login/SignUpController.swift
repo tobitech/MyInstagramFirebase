@@ -146,8 +146,10 @@ class SignUpController: UIViewController, UIImagePickerControllerDelegate, UINav
                 /// execute code that will save username into Firebase Database
     
                 guard let uid = user?.uid else { return }
+                
+                guard let fcmToken = Messaging.messaging().fcmToken else { return }
     
-                let dictionaryValues = ["username": username, "profileImageUrl": profileImageUrl]
+                let dictionaryValues = ["username": username, "profileImageUrl": profileImageUrl, "fcmToken": fcmToken]
                 let values = [uid:dictionaryValues]
     
                 Database.database().reference().child("users").updateChildValues(values, withCompletionBlock: { (err, ref) in
