@@ -42,6 +42,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, UNUser
         completionHandler(.alert)
     }
     
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        
+        let userInfo = response.notification.request.content.userInfo
+        
+        if let followerId = userInfo["followerId"] as? String {
+            print(followerId)
+            
+            let userProfileController = UserProfileController(collectionViewLayout: UICollectionViewFlowLayout())
+            userProfileController.userId = followerId
+            
+            // access our main UI from app delegate file
+            if let mainTabBarController = window?.rootViewController as? MainTabBarController {
+                
+                mainTabBarController.selectedIndex = 0
+                
+                mainTabBarController.presentedViewController?.dismiss(animated: true, completion: nil)
+                
+                if let homeNavigationController = mainTabBarController.viewControllers?.first as? UINavigationController {
+                    
+                    homeNavigationController.pushViewController(userProfileController, animated: true)
+                    
+                }
+            }
+            
+        }
+        
+    }
+    
     private func attemptsToRegisterForNotifications(application: UIApplication) {
         print("Attempting to register for push notification")
         
